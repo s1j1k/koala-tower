@@ -1,6 +1,6 @@
-# ATC Trainer
+# Koala Tower (ATC Trainer)
 
-A free, mobile-first practice app for the Airservices Australia air traffic controller selection tests. Built for one candidate's own prep, so it should be fast and simple, with no backend.
+A free, mobile-first practice app for the Airservices Australia air traffic controller selection tests. Built for one candidate's own prep, so it should be fast, simple and fun, with no backend.
 
 ## Context: what the real tests are
 Airservices Australia uses the **SureSelect** test battery (by Airways International / Airways NZ). The online stage has three suites:
@@ -9,26 +9,45 @@ Airservices Australia uses the **SureSelect** test battery (by Airways Internati
 2. **ATC Cognitive Ability Suite** (~45 min): detail accuracy (~15 min) and coded reasoning (~30 min).
 3. **Behavioural Traits** questionnaire (personality; not something to drill).
 
-None of them needs aviation knowledge. Practice should look and feel like these tasks, with mental maths as supporting work.
+None of them needs aviation knowledge. Practice should look and feel like these tasks, with mental maths and number puzzles as supporting work.
 
 ## Current state
-- `index.html`: one self-contained page (inline CSS and JS, no build step, no dependencies).
-- Modes: Arithmetic, Unit conversions (ft/m, NM/km, kt/km/h, flight levels, reciprocal headings, hours/minutes), Speed/distance/time (NM per minute, time to go, closing speed, time to meet), and Mixed.
-- 3 difficulty levels; 1, 2 or 5 minute rounds; exact answers auto-advance; conversions accept anything within 5%; tips on misses; review list at the end; best score per setting kept in localStorage.
+- Static site, no build step, no dependencies. `index.html` loads `css/app.css` and classic `<script>` files (not ES modules, so it still opens straight from `file://`).
+- **World** (`js/world.js`): a canvas you fly around.
+  - Map view: top-down, steer by heading (⟲ ⟳ buttons, tap the map, arrow keys, or AUTO). Heading tape, minimap, golden rings (+XP), and "Koala Tower" giving real headings to the suggested lesson area. Fly into an airport's dashed circle to open its lessons.
+  - Side view: pitch up/down through gates at given flight levels; HUD shows pitch, V/S, FL, and the 1-in-60 angle needed.
+  - Islands: Koala Tower HQ (daily flight, checkride) plus one per area.
+- **Areas and drills** (each drill has 10 levels; a ★ unlocks the next):
+  - Maths Meadows (`drills/maths.js`): arithmetic, unit conversions, speed/distance/time, quick estimates, percentages & fractions.
+  - Puzzle Peaks (`drills/puzzles.js`): number series, number machines, missing operators, symbol sums, odd one out.
+  - Spatial Sands (`drills/spatial.js`): heading turns, clock-code traffic, map bearings (rotated maps from L6), mental rotation, path tracking, point the way.
+  - Memory Mountains (`drills/memory.js`): digit span, flight strip recall, n-back, blip grid, remembering relationships.
+  - Detail Docks (`drills/detail.js`): same or different, spot the differences (tables), scan & count.
+  - Code Canyon (`drills/coded.js`): code book, rule follower, symbol operations, code breaker (+ letter series).
+  - Radar Reef (`drills/radar.js`): conflict spotter, sector control (live radar sim), multi-tasking.
+- **Runner** (`js/runner.js`): timed rounds (setting: 60/90/120/180 s, star targets scale) or fixed-trial rounds; question types `num`, `hdg` (mod 360), `text`, `choice` (incl. `layout:'compass'`), `tap` (toggle `[data-t]` elements); optional `study` phase (`html` + ms, or flashed `frames`). Custom drills get a `ctx` (stage, loop, countdown, finish). Results show stars, XP, unlocks and a review of misses. `A.session()` chains legs (daily flight, checkride).
+- **Progress** (`js/core.js`): one localStorage key `atctrainer:v2` with XP, ranks (Student Pilot → Chief of the Skies; plane colour changes), per-drill stars/unlocks/best, history (300 runs), streak, settings.
+- **Screens** (`js/screens.js`): region & drill sheets, HQ (daily flight from weakest areas; checkride in SureSelect order at L3/L6/L9), logbook, profile (14-day chart, area progress, history), settings (round length, sound, vibration, radar helpers, unlock all, reset).
+
+## Hosting, SEO and security
+- Live at **https://koalatower.app** via Cloudflare Pages (no build command, output directory `/`). Domain registered at name.com; DNS on Cloudflare.
+- `js/config.js` holds the site URL and the optional `tipUrl` / `feedbackUrl` (hidden when empty; only `https://` links are shown).
+- SEO: meta/OG/Twitter tags and JSON-LD in `index.html`, a crawlable content page `about.html`, `robots.txt`, `sitemap.xml`, `manifest.webmanifest`, icons and share image in `assets/` (regenerate PNGs with Playwright if the design changes). If the domain changes, update every `koalatower.app` reference.
+- Visitor counts: Cloudflare Web Analytics (cookieless), switched on in the Cloudflare dashboard, not in code.
+- Security: `_headers` sets a strict CSP (own files + Cloudflare analytics only), nosniff, frame-deny, etc. Keep it working: **no inline scripts or `on*=` attributes, no third-party scripts**, set handlers in JS. Feedback goes to an external form; never add a backend or a field that posts or displays other users' text. Escape anything user-typed with `u.esc` before putting it in HTML.
+
+## Adding a drill
+Call `A.drill({ id, area, name, icon, desc, tips, gen(L, st) | run(ctx), target(L) | trials, accFloor? })` in the area's file. `gen` returns a question object; `st` is per-round state. Make every level 1–10 valid; harder levels should be genuinely harder.
 
 ## Conventions
-- Keep it working as a single static page that opens straight from the file (and from GitHub Pages later). If it grows, split into `js/` and `css/` files with no bundler.
-- Mobile first (about 390 px wide), dark theme, big tap targets, `inputmode="decimal"` for answers.
-- Wrap every localStorage call in try/catch.
-- Plain vanilla JS, no frameworks unless clearly needed.
-- After changes, test in a headless browser at phone size (Playwright) and check the console for errors.
+- Keep it a static page that works from `file://` and GitHub Pages. No bundler, no frameworks.
+- Mobile first (about 390 px wide), dark theme, cute (emoji, pastel accents, Koala Tower), big tap targets, `inputmode="decimal"` for numeric answers. Avoid typed negative answers (iOS decimal keypad has no minus).
+- Wrap every localStorage call in try/catch (use `A.store`).
+- After changes, test in a headless browser at phone size (Playwright, Python is installed) and check the console for errors. Fuzz every drill's `gen` at all 10 levels: answers must be defined, finite, non-negative, and choice indexes valid. `A._run()` exposes the current run for tests.
 
-## Roadmap ideas (priority order)
-1. **Radar simulation drill**: aircraft dots moving on a canvas; spot conflicts (will two aircraft come within X NM?) and give instructions. Score safety and efficiency.
-2. **Detail accuracy / error checking**: compare two tables or code strings and mark the mismatches, against the clock.
-3. **Coded reasoning**: apply a rule set (if X then code A...) to items quickly.
-4. **Short-term memory**: callsigns, altitudes and headings shown briefly, then recalled; n-back and digit span.
-5. **Spatial**: mental rotation, compass bearings between points, relative position after turns.
-6. **Progress tracking**: history per mode and a simple chart over time.
-7. **PWA**: manifest and service worker so it installs on the phone home screen and works offline.
-8. **Daily session**: a 10-minute mixed workout that weights the user's weakest areas.
+## Roadmap ideas
+1. **Offline**: a service worker so it works offline (the manifest and icons are already there).
+2. More radar sim variety: climbing/descending traffic, speed control, arrival sequencing.
+3. Per-drill progress charts over time.
+4. Adaptive difficulty inside a round (step level up/down after streaks).
+5. Timed "exam mode" settings that mirror the real suite lengths.

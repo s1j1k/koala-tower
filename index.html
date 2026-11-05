@@ -1,368 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-AU">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ATC Mental Maths Drill</title>
-<style>
-  :root{
-    --bg:#0f1419; --panel:#1a2129; --line:#2a333d; --text:#e8edf2; --muted:#8b98a5;
-    --accent:#3fb68b; --accent-d:#2c8a69; --bad:#e5604d; --warn:#e8b84a;
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0;background:var(--bg);color:var(--text);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;-webkit-tap-highlight-color:transparent}
-  body{padding:calc(16px + env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom))}
-  .wrap{max-width:520px;margin:0 auto}
-  h1{font-size:20px;margin:4px 0 2px;letter-spacing:.2px}
-  .sub{color:var(--muted);font-size:13px;margin:0 0 16px}
-  .label{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:14px 0 8px}
-  .chips{display:flex;flex-wrap:wrap;gap:8px}
-  .chip{border:1px solid var(--line);background:var(--panel);color:var(--text);padding:10px 12px;border-radius:10px;
-    font-size:14px;cursor:pointer}
-  .chip.on{border-color:var(--accent);background:rgba(63,182,139,.14);color:#bff0dc}
-  .btn{display:block;width:100%;border:0;border-radius:12px;padding:15px;font-size:17px;font-weight:600;cursor:pointer;
-    background:var(--accent);color:#06140e;margin-top:18px}
-  .btn:active{background:var(--accent-d)}
-  .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text);font-weight:500}
-  .row{display:flex;gap:10px}
-  .row .btn{margin-top:10px}
-  .hud{display:flex;justify-content:space-between;align-items:center;font-size:15px;color:var(--muted)}
-  .hud b{color:var(--text);font-variant-numeric:tabular-nums}
-  .bar{height:4px;background:var(--line);border-radius:4px;margin:10px 0 18px;overflow:hidden}
-  .bar i{display:block;height:100%;background:var(--accent);width:100%;transition:width .25s linear}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px 18px;text-align:center}
-  .kind{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
-  .q{font-size:30px;font-weight:650;margin:10px 0 6px;line-height:1.25;font-variant-numeric:tabular-nums}
-  .q.small{font-size:21px}
-  .unit{color:var(--muted);font-size:14px;min-height:18px}
-  input{width:100%;margin-top:16px;padding:14px;border-radius:12px;border:1px solid var(--line);background:#0b1015;
-    color:var(--text);font-size:26px;text-align:center;font-variant-numeric:tabular-nums;outline:none}
-  input:focus{border-color:var(--accent)}
-  input.ok{border-color:var(--accent)} input.no{border-color:var(--bad)}
-  .fb{min-height:44px;margin-top:12px;font-size:14px;line-height:1.4}
-  .fb .good{color:var(--accent)} .fb .bad{color:var(--bad)} .fb .tip{color:var(--warn)}
-  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
-  .stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center}
-  .stat b{display:block;font-size:24px;font-variant-numeric:tabular-nums}
-  .stat span{font-size:12px;color:var(--muted)}
-  .miss{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:12px;font-size:14px;line-height:1.5}
-  .miss div{border-bottom:1px solid var(--line);padding:6px 0}
-  .miss div:last-child{border:0}
-  .rules{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:6px 14px;margin-top:20px;font-size:14px;line-height:1.5}
-  .rules summary{cursor:pointer;padding:8px 0;font-weight:600}
-  .rules ul{margin:4px 0 10px;padding-left:18px}
-  .rules li{margin:4px 0}
-  .best{font-size:13px;color:var(--muted);margin-top:10px;text-align:center}
-  .hidden{display:none}
-</style>
+<meta name="theme-color" content="#0d1b2a">
+<title>Koala Tower · Free ATC Selection Test Practice Game</title>
+<meta name="description" content="Free, gamified practice for air traffic controller selection tests: short-term memory, spatial awareness, radar conflicts, detail accuracy, coded reasoning, number puzzles and mental maths. No sign-up. Unofficial.">
+<link rel="canonical" href="https://koalatower.app/">
+<meta name="robots" content="index,follow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Koala Tower">
+<meta property="og:title" content="Koala Tower · Free ATC Selection Test Practice">
+<meta property="og:description" content="Fly between lesson islands and train every skill in the air traffic controller selection tests. 31 lessons, 10 levels each. Free, no sign-up.">
+<meta property="og:url" content="https://koalatower.app/">
+<meta property="og:image" content="https://koalatower.app/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Koala Tower: a cute plane flying between lesson islands">
+<meta property="og:locale" content="en_AU">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/icon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-title" content="Koala Tower">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Koala Tower","url":"https://koalatower.app/","description":"Free, gamified practice for air traffic controller (ATC) selection tests: short-term memory, spatial awareness, remembering relationships, radar simulation, detail accuracy, coded reasoning, numerical reasoning and mental maths.","applicationCategory":"EducationalApplication","operatingSystem":"Any (web browser)","inLanguage":"en-AU","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"AUD"},"audience":{"@type":"Audience","audienceType":"Air traffic controller applicants"}}
+</script>
+<link rel="stylesheet" href="css/app.css">
 </head>
 <body>
-<div class="wrap">
+<noscript><div class="page" style="position:static"><h1>Koala Tower: free ATC selection test practice</h1><p class="sub">This practice game needs JavaScript. Please turn it on, or read <a class="link" href="about.html">about Koala Tower</a>.</p></div></noscript>
 
-  <!-- SETUP -->
-  <section id="setup">
-    <h1>ATC Mental Maths Drill</h1>
-    <p class="sub">Fast arithmetic, unit conversions and speed–distance–time. No pen, no calculator.</p>
-
-    <div class="label">Practice</div>
-    <div class="chips" id="modes">
-      <button class="chip on" data-m="arith">Arithmetic</button>
-      <button class="chip" data-m="conv">Unit conversions</button>
-      <button class="chip" data-m="sdt">Speed / distance / time</button>
-      <button class="chip" data-m="mix">Mixed</button>
+<!-- WORLD: fly between lessons -->
+<section id="scr-world" class="screen">
+  <canvas id="worldCanvas"></canvas>
+  <div class="w-top">
+    <button class="pill" id="wRank" aria-label="Pilot profile"><span id="wRankIcon">🐣</span> <span id="wRankName">Student</span> <small id="wXp">0 XP</small></button>
+    <div class="w-btns">
+      <button class="iconbtn" id="wView" aria-label="Switch view">↕️</button>
+      <button class="iconbtn" id="wBook" aria-label="Lesson list">📖</button>
+      <button class="iconbtn" id="wSet" aria-label="Settings">⚙️</button>
     </div>
+  </div>
+  <div class="tower" id="wTower"><span class="koala">🐨</span><span id="wTowerTxt">Koala Tower: welcome aboard!</span></div>
+  <div class="w-ctrls" id="wCtrls">
+    <button class="hold" id="wLeft" aria-label="Turn left">⟲<small id="wLeftLbl">LEFT</small></button>
+    <button class="hold mid" id="wMid" aria-label="Lessons">✈️<small id="wMidLbl">LESSONS</small></button>
+    <button class="hold" id="wRight" aria-label="Turn right">⟳<small id="wRightLbl">RIGHT</small></button>
+  </div>
+</section>
 
-    <div class="label">Difficulty</div>
-    <div class="chips" id="levels">
-      <button class="chip on" data-l="1">Warm-up</button>
-      <button class="chip" data-l="2">Standard</button>
-      <button class="chip" data-l="3">Hard</button>
-    </div>
+<!-- LOGBOOK: plain list of every lesson -->
+<section id="scr-book" class="screen hidden page">
+  <div class="pagebar"><button class="iconbtn" data-back>←</button><h1>Logbook</h1><span></span></div>
+  <div id="bookBody"></div>
+</section>
 
-    <div class="label">Length</div>
-    <div class="chips" id="lens">
-      <button class="chip" data-t="60">1 min</button>
-      <button class="chip on" data-t="120">2 min</button>
-      <button class="chip" data-t="300">5 min</button>
-    </div>
+<!-- PROFILE -->
+<section id="scr-profile" class="screen hidden page">
+  <div class="pagebar"><button class="iconbtn" data-back>←</button><h1>Pilot profile</h1><span></span></div>
+  <div id="profBody"></div>
+</section>
 
-    <button class="btn" id="start">Start</button>
-    <div class="best" id="bestLine"></div>
+<!-- SETTINGS -->
+<section id="scr-settings" class="screen hidden page">
+  <div class="pagebar"><button class="iconbtn" data-back>←</button><h1>Settings</h1><span></span></div>
+  <div id="setBody"></div>
+</section>
 
-    <details class="rules">
-      <summary>Quick rules to memorise</summary>
-      <ul>
-        <li><b>Per-minute speed:</b> knots ÷ 60 = NM per minute. 240 kt = 4 NM/min. 300 kt = 5 NM/min.</li>
-        <li><b>Time to go:</b> distance ÷ (NM per min). 60 NM at 240 kt = 60 ÷ 4 = 15 min.</li>
-        <li><b>Metres → feet:</b> × 3.3 (exactly 3.28). 1,000 m ≈ 3,300 ft.</li>
-        <li><b>Feet → metres:</b> × 0.3. 10,000 ft ≈ 3,000 m.</li>
-        <li><b>NM → km:</b> × 1.85 (about double, minus 7.5%). 100 NM ≈ 185 km.</li>
-        <li><b>Knots → km/h:</b> same as NM → km: × 1.85.</li>
-        <li><b>Flight levels:</b> FL × 100 = feet. FL350 = 35,000 ft.</li>
-        <li><b>Reciprocal heading:</b> under 180, add 180; otherwise subtract 180. Shortcut: +200 then −20 (070 → 250).</li>
-        <li><b>Closing speed:</b> head-on, add the speeds. Same direction, subtract them.</li>
-        <li><b>Multiplying:</b> split it up. 7 × 48 = 7 × 50 − 7 × 2 = 350 − 14 = 336.</li>
-      </ul>
-    </details>
-  </section>
+<!-- PLAY: drill runner -->
+<section id="scr-play" class="screen hidden page play">
+  <div class="phud">
+    <button class="iconbtn" id="pQuit" aria-label="Quit">✕</button>
+    <div class="ptitle"><b id="pName"></b><small id="pLevel"></small></div>
+    <div class="pscore"><b id="pScore">0</b><small id="pCombo"></small></div>
+  </div>
+  <div class="pbar"><i id="pBar"></i></div>
+  <div class="ptime" id="pTime"></div>
+  <div id="pStage"></div>
+</section>
 
-  <!-- DRILL -->
-  <section id="drill" class="hidden">
-    <div class="hud"><span>Score <b id="score">0</b></span><span><b id="time">2:00</b></span></div>
-    <div class="bar"><i id="barFill"></i></div>
-    <div class="card">
-      <div class="kind" id="kind"></div>
-      <div class="q" id="q"></div>
-      <div class="unit" id="unit"></div>
-      <form id="ansForm" autocomplete="off">
-        <input id="ans" inputmode="decimal" enterkeyhint="go" placeholder="Answer">
-      </form>
-      <div class="fb" id="fb"></div>
-    </div>
-    <div class="row">
-      <button class="btn ghost" id="skip">Skip</button>
-      <button class="btn" id="check">Check</button>
-    </div>
-    <button class="btn ghost" id="quit">End early</button>
-  </section>
+<!-- RESULTS -->
+<section id="scr-results" class="screen hidden page">
+  <div id="resBody"></div>
+</section>
 
-  <!-- RESULTS -->
-  <section id="results" class="hidden">
-    <h1>Time's up</h1>
-    <p class="sub" id="resSub"></p>
-    <div class="stats">
-      <div class="stat"><b id="rCorrect">0</b><span>correct</span></div>
-      <div class="stat"><b id="rAcc">0%</b><span>accuracy</span></div>
-      <div class="stat"><b id="rAvg">0s</b><span>per correct</span></div>
-    </div>
-    <div class="best" id="rBest"></div>
-    <div class="label">Review your misses</div>
-    <div class="miss" id="missList"></div>
-    <button class="btn" id="again">Go again</button>
-    <button class="btn ghost" id="menu">Change settings</button>
-  </section>
+<div id="sheetWrap" class="hidden"><div class="backdrop" id="sheetBack"></div><div class="sheet" id="sheet"></div></div>
+<div id="toast" class="toast hidden"></div>
+<div id="fx"></div>
 
-</div>
-
-<script>
-(() => {
-  const $ = id => document.getElementById(id);
-  const rnd = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
-  const pick = arr => arr[Math.floor(Math.random() * arr.length)];
-  const fmt = n => Number(n).toLocaleString('en-AU', {maximumFractionDigits: 2});
-  const pad3 = n => String(n).padStart(3, '0');
-
-  let mode = 'arith', level = 1, length = 120;
-
-  // ---------- storage (optional) ----------
-  const store = {
-    get(k){ try { return JSON.parse(localStorage.getItem(k)); } catch(e){ return null; } },
-    set(k,v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
-  };
-  const bestKey = () => `atcmath:${mode}:${level}:${length}`;
-  function showBest(){
-    const b = store.get(bestKey());
-    $('bestLine').textContent = b ? `Your best on this setting: ${b} correct` : '';
-  }
-
-  // ---------- chip groups ----------
-  function group(id, attr, set){
-    $(id).addEventListener('click', e => {
-      const c = e.target.closest('.chip'); if(!c) return;
-      [...$(id).children].forEach(x => x.classList.toggle('on', x === c));
-      set(c.dataset[attr]); showBest();
-    });
-  }
-  group('modes', 'm', v => mode = v);
-  group('levels', 'l', v => level = +v);
-  group('lens', 't', v => length = +v);
-  showBest();
-
-  // ---------- question generators ----------
-  // each returns {kind, q, unit, ans, tol (fraction, 0 = exact), tip, small}
-  function arith(){
-    const L = level;
-    const op = pick(['+','−','×','÷']);
-    let a, b, ans, tip = '';
-    if(op === '+'){
-      a = L===1 ? rnd(12,89) : L===2 ? rnd(120,899) : rnd(1200,8999);
-      b = L===1 ? rnd(12,89) : L===2 ? rnd(45,899) : rnd(450,8999);
-      ans = a + b; tip = 'Add the hundreds or tens first, then the rest.';
-    } else if(op === '−'){
-      a = L===1 ? rnd(40,99) : L===2 ? rnd(300,999) : rnd(3000,9999);
-      b = rnd(Math.floor(a*0.2), a-1);
-      ans = a - b; tip = 'Count up from the smaller number to the bigger one.';
-    } else if(op === '×'){
-      if(L===1){ a = rnd(3,12); b = rnd(3,12); }
-      else if(L===2){ a = rnd(3,9); b = rnd(13,99); }
-      else { a = rnd(11,25); b = rnd(13,99); }
-      ans = a * b; tip = `Split it: ${a} × ${b} = ${a} × ${Math.floor(b/10)*10} + ${a} × ${b%10}.`;
-    } else {
-      b = L===1 ? rnd(2,12) : L===2 ? rnd(3,15) : rnd(6,25);
-      ans = L===1 ? rnd(2,12) : L===2 ? rnd(6,40) : rnd(12,60);
-      a = ans * b; tip = `Ask yourself: ${b} × what = ${a}?`;
-    }
-    return {kind:'Arithmetic', q:`${fmt(a)} ${op} ${fmt(b)}`, unit:'', ans, tol:0, tip};
-  }
-
-  function conv(){
-    const L = level;
-    const types = L===1 ? ['fl','recip','hm','m2ft','ft2m'] :
-                  L===2 ? ['fl','recip','hm','m2ft','ft2m','nm2km','kt2kmh'] :
-                          ['recip','m2ft','ft2m','nm2km','km2nm','kt2kmh','kmh2kt','hm','flm'];
-    const t = pick(types);
-    switch(t){
-      case 'fl': {
-        if(Math.random()<.5){ const fl = rnd(5,45)*10; return {kind:'Flight level → feet', q:`FL${pad3(fl)}`, unit:'feet', ans:fl*100, tol:0, tip:'FL × 100 = feet.'}; }
-        const ft = rnd(5,45)*1000; return {kind:'Feet → flight level', q:`${fmt(ft)} ft`, unit:'FL (number only)', ans:ft/100, tol:0, tip:'Feet ÷ 100 = FL.'};
-      }
-      case 'recip': {
-        const h = rnd(1,36)*10 - (L===3 ? rnd(0,9) : 0);
-        const hh = h <= 0 ? 360 : h;
-        let r = hh < 180 ? hh + 180 : hh - 180; if(r === 0) r = 360;
-        return {kind:'Reciprocal heading', q:`Heading ${pad3(hh)}°`, unit:'opposite direction, in degrees', ans:r, tol:0, tip:'Under 180, add 180. Otherwise subtract 180.'};
-      }
-      case 'hm': {
-        if(Math.random()<.5){ const h = pick(L===1?[0.5,1,1.5,2,2.5,3]:[0.25,0.75,1.25,1.5,1.75,2.25,2.5,3.5]); return {kind:'Hours → minutes', q:`${fmt(h)} h`, unit:'minutes', ans:h*60, tol:0, tip:'0.25 h = 15 min, 0.5 h = 30 min, 0.75 h = 45 min.'}; }
-        const m = pick(L===1?[30,60,90,120,150,180]:[15,45,75,105,135,165,195,225]); return {kind:'Minutes → hours', q:`${m} min`, unit:'hours (decimal)', ans:m/60, tol:0, tip:'Divide by 60. 15 min = 0.25 h.'};
-      }
-      case 'm2ft': { const m = L===1 ? rnd(1,10)*100 : rnd(3,90)*100; return {kind:'Metres → feet', q:`${fmt(m)} m`, unit:'feet (within 5%)', ans:m*3.28084, tol:.05, tip:'Multiply by 3.3: ×3, then add 10%.'}; }
-      case 'ft2m': { const f = L===1 ? rnd(1,10)*1000 : rnd(5,400)*100; return {kind:'Feet → metres', q:`${fmt(f)} ft`, unit:'metres (within 5%)', ans:f*0.3048, tol:.05, tip:'Multiply by 0.3: drop a zero, then ×3.'}; }
-      case 'nm2km': { const n = L<3 ? rnd(1,20)*10 : rnd(15,400); return {kind:'NM → km', q:`${fmt(n)} NM`, unit:'kilometres (within 5%)', ans:n*1.852, tol:.05, tip:'×2, then take off about 7.5%. 100 NM ≈ 185 km.'}; }
-      case 'km2nm': { const k = rnd(20,600); return {kind:'km → NM', q:`${fmt(k)} km`, unit:'nautical miles (within 5%)', ans:k/1.852, tol:.05, tip:'Halve it, then add about 8%. 185 km ≈ 100 NM.'}; }
-      case 'kt2kmh': { const k = L<3 ? rnd(10,50)*10 : rnd(120,520); return {kind:'Knots → km/h', q:`${fmt(k)} kt`, unit:'km/h (within 5%)', ans:k*1.852, tol:.05, tip:'Same as NM → km: ×1.85.'}; }
-      case 'kmh2kt': { const k = rnd(20,90)*10; return {kind:'km/h → knots', q:`${fmt(k)} km/h`, unit:'knots (within 5%)', ans:k/1.852, tol:.05, tip:'Halve it, then add about 8%.'}; }
-      case 'flm': { const fl = rnd(10,40)*10; return {kind:'Flight level → metres', q:`FL${pad3(fl)}`, unit:'metres (within 5%)', ans:fl*100*0.3048, tol:.05, tip:'FL × 100 = feet, then × 0.3.'}; }
-    }
-  }
-
-  function sdt(){
-    const L = level;
-    const speeds = L===1 ? [60,120,180,240,300,360] : L===2 ? [120,180,240,300,360,420,480] : [150,210,270,330,390,450,510];
-    const types = L===1 ? ['nmpm','dist','time'] : ['nmpm','dist','time','speed','close','sep'];
-    const t = pick(types);
-    const s = pick(speeds), npm = s/60;
-    switch(t){
-      case 'nmpm': return {kind:'Speed → NM per minute', q:`${s} kt`, unit:'NM per minute', ans:npm, tol:0, tip:'Knots ÷ 60.'};
-      case 'dist': { const m = L===1 ? pick([5,10,15,20,30]) : rnd(3,25); return {kind:'Distance covered', q:`${s} kt for ${m} min`, unit:'NM travelled', ans:npm*m, tol:L===3?.03:0, tip:`${s} kt = ${fmt(npm)} NM/min, × ${m} min.`, small:true}; }
-      case 'time': { const m = L===1 ? pick([5,10,15,20,30]) : rnd(4,30); const d = npm*m; return {kind:'Time to go', q:`${fmt(d)} NM at ${s} kt`, unit:'minutes', ans:m, tol:0, tip:`${s} kt = ${fmt(npm)} NM/min. ${fmt(d)} ÷ ${fmt(npm)}.`, small:true}; }
-      case 'speed': { const m = pick([5,6,10,12,15,20,30]); const d = npm*m; return {kind:'Find the speed', q:`${fmt(d)} NM in ${m} min`, unit:'knots', ans:s, tol:0, tip:`NM per min × 60. ${fmt(d)} ÷ ${m} = ${fmt(npm)}, × 60.`, small:true}; }
-      case 'close': {
-        const a = pick(speeds), b = pick(speeds);
-        const head = Math.random()<.5;
-        return head
-          ? {kind:'Closing speed', q:`Head-on: ${a} kt and ${b} kt`, unit:'closing speed, kt', ans:a+b, tol:0, tip:'Head-on: add the speeds.', small:true}
-          : {kind:'Closing speed', q:`Same track: ${Math.max(a,b)} kt catching ${Math.min(a,b)} kt`, unit:'closing speed, kt', ans:Math.abs(a-b), tol:0, tip:'Same direction: subtract.', small:true};
-      }
-      case 'sep': {
-        const a = pick([180,240,300,360]), b = pick([180,240,300,360]);
-        const close = (a+b)/60; const m = rnd(2,10); const d = close*m;
-        return {kind:'Time to meet', q:`${fmt(d)} NM apart, head-on, ${a} kt and ${b} kt`, unit:'minutes until they meet', ans:m, tol:0, tip:`Closing speed ${a+b} kt = ${fmt(close)} NM/min. ${fmt(d)} ÷ ${fmt(close)}.`, small:true};
-      }
-    }
-  }
-
-  function next(){
-    const m = mode === 'mix' ? pick(['arith','conv','sdt']) : mode;
-    return m === 'arith' ? arith() : m === 'conv' ? conv() : sdt();
-  }
-
-  // ---------- drill loop ----------
-  let cur, score, attempts, timer, endAt, misses, correctTimes, qStart, locked;
-
-  function show(id){ ['setup','drill','results'].forEach(s => $(s).classList.toggle('hidden', s !== id)); }
-
-  function ask(){
-    cur = next(); locked = false;
-    $('kind').textContent = cur.kind;
-    $('q').textContent = cur.q;
-    $('q').classList.toggle('small', !!cur.small);
-    $('unit').textContent = cur.unit;
-    const a = $('ans'); a.value = ''; a.className = '';
-    $('fb').innerHTML = '';
-    qStart = performance.now();
-    a.focus();
-  }
-
-  function isRight(v){
-    if(cur.tol === 0) return Math.abs(v - cur.ans) < 0.011;
-    return Math.abs(v - cur.ans) <= Math.abs(cur.ans) * cur.tol;
-  }
-  const shown = () => cur.tol ? `≈ ${fmt(Math.round(cur.ans))}` : fmt(cur.ans);
-
-  function submit(skipped){
-    if(locked) return;
-    const raw = $('ans').value.replace(/,/g,'').trim();
-    if(!skipped && raw === '') return;
-    const v = parseFloat(raw);
-    attempts++;
-    if(!skipped && !isNaN(v) && isRight(v)){
-      score++; correctTimes.push((performance.now()-qStart)/1000);
-      $('score').textContent = score;
-      $('ans').className = 'ok';
-      $('fb').innerHTML = `<span class="good">✓ ${cur.tol ? 'Close enough. Exact: ' + fmt(Math.round(cur.ans*10)/10) : 'Correct'}</span>`;
-      locked = true; setTimeout(ask, cur.tol ? 650 : 250);
-    } else {
-      misses.push({q:cur.q, unit:cur.unit, you: skipped ? 'skipped' : raw, ans:shown(), tip:cur.tip});
-      $('ans').className = 'no';
-      $('fb').innerHTML = `<span class="bad">${skipped?'Skipped':'✗'}: answer ${shown()}</span><br><span class="tip">${cur.tip}</span>`;
-      locked = true; setTimeout(ask, 2200);
-    }
-  }
-
-  // auto-advance for exact answers as soon as the typed value is right
-  $('ans').addEventListener('input', () => {
-    if(locked || !cur || cur.tol) return;
-    const v = parseFloat($('ans').value.replace(/,/g,''));
-    if(!isNaN(v) && isRight(v)) submit(false);
-  });
-  $('ansForm').addEventListener('submit', e => { e.preventDefault(); submit(false); });
-  $('check').addEventListener('click', () => submit(false));
-  $('skip').addEventListener('click', () => submit(true));
-  $('quit').addEventListener('click', finish);
-
-  function tick(){
-    const left = Math.max(0, endAt - performance.now());
-    const s = Math.ceil(left/1000);
-    $('time').textContent = `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
-    $('barFill').style.width = (left/(length*1000)*100) + '%';
-    if(left <= 0) finish();
-  }
-
-  function start(){
-    score = 0; attempts = 0; misses = []; correctTimes = [];
-    $('score').textContent = '0';
-    show('drill');
-    endAt = performance.now() + length*1000;
-    clearInterval(timer); timer = setInterval(tick, 200); tick();
-    ask();
-  }
-
-  function finish(){
-    clearInterval(timer);
-    show('results');
-    const acc = attempts ? Math.round(score/attempts*100) : 0;
-    const avg = correctTimes.length ? (correctTimes.reduce((a,b)=>a+b,0)/correctTimes.length) : 0;
-    $('rCorrect').textContent = score;
-    $('rAcc').textContent = acc + '%';
-    $('rAvg').textContent = avg ? avg.toFixed(1) + 's' : '–';
-    const names = {arith:'Arithmetic', conv:'Unit conversions', sdt:'Speed / distance / time', mix:'Mixed'};
-    const lv = {1:'Warm-up',2:'Standard',3:'Hard'};
-    $('resSub').textContent = `${names[mode]} · ${lv[level]} · ${length/60} min`;
-    const prev = store.get(bestKey()) || 0;
-    if(score > prev){ store.set(bestKey(), score); $('rBest').textContent = prev ? `New best! Previous: ${prev}` : 'First score saved.'; }
-    else $('rBest').textContent = `Your best: ${prev}`;
-    $('missList').innerHTML = misses.length
-      ? misses.map(m => `<div><b>${m.q}</b> (${m.unit || 'answer'})<br>You: ${m.you} · Answer: ${m.ans}<br><span style="color:var(--warn)">${m.tip}</span></div>`).join('')
-      : '<div>No misses. Try the next difficulty up.</div>';
-    showBest();
-  }
-
-  $('start').addEventListener('click', start);
-  $('again').addEventListener('click', start);
-  $('menu').addEventListener('click', () => show('setup'));
-})();
-</script>
+<script src="js/config.js"></script>
+<script src="js/core.js"></script>
+<script src="js/runner.js"></script>
+<script src="js/drills/maths.js"></script>
+<script src="js/drills/puzzles.js"></script>
+<script src="js/drills/spatial.js"></script>
+<script src="js/drills/memory.js"></script>
+<script src="js/drills/detail.js"></script>
+<script src="js/drills/coded.js"></script>
+<script src="js/drills/radar.js"></script>
+<script src="js/world.js"></script>
+<script src="js/screens.js"></script>
 </body>
 </html>
